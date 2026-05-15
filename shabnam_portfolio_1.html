@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shabnam Alizada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --gold: #c9a84c; --cream: #f0ead8; --muted: #6b6b6b; --bg: #080808; }
+html, body { width:100%;height:100%;background:var(--bg);overflow:hidden;cursor:none; }
+
+.cursor { position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%); }
+.cursor-ring { position:fixed;width:36px;height:36px;border:1px solid rgba(201,168,76,0.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .14s ease-out,top .14s ease-out; }
+
+.scene { width:100vw;height:100vh;position:relative; }
+.scene::before { content:'';position:absolute;inset:0;opacity:0.35;pointer-events:none;z-index:1;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"); }
+
+svg#bike { position:absolute;inset:0;width:100%;height:100%; }
+
+.text-panel { position:absolute;bottom:72px;left:64px;max-width:430px;z-index:10; }
+
+.ch-title {
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:clamp(38px,5vw,66px);
+  font-weight:300;color:var(--cream);
+  line-height:1.06;letter-spacing:-0.01em;
+  margin-bottom:20px;
+  opacity:0;transform:translateY(22px);
+  transition:opacity .65s .1s,transform .65s .1s;
+}
+.ch-title em { font-style:italic;color:var(--gold); }
+
+.ch-body {
+  font-family:'DM Sans',sans-serif;
+  font-size:13.5px;font-weight:300;
+  line-height:1.85;color:var(--muted);
+  opacity:0;transform:translateY(10px);
+  transition:opacity .65s .22s,transform .65s .22s;
+}
+
+.text-panel.show .ch-title,
+.text-panel.show .ch-body { opacity:1;transform:translateY(0); }
+
+.progress-wrap { position:absolute;bottom:36px;left:64px;display:flex;gap:7px;align-items:center;z-index:10; }
+.prog-seg { height:1px;width:28px;background:#1e1e1e;position:relative;overflow:hidden; }
+.prog-seg .fill { position:absolute;top:0;left:0;height:100%;width:0%;background:var(--gold);transition:width .4s ease; }
+.prog-seg.done .fill { width:100%; }
+.prog-seg.active .fill { width:50%; }
+
+.nav-hint { position:absolute;bottom:34px;right:64px;font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#282828;z-index:10; }
+
+.watermark { position:absolute;top:40px;right:64px;font-family:'Cormorant Garamond',serif;font-size:12px;letter-spacing:.25em;color:#1a1a1a;text-transform:uppercase;z-index:10; }
+
+.accent-line { position:absolute;top:0;left:36px;width:1px;height:100vh;background:linear-gradient(to bottom,transparent,var(--gold) 30%,var(--gold) 70%,transparent);opacity:0.09; }
+
+.bp { transition:stroke .5s ease,opacity .5s ease,filter .5s ease; }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<div class="scene" id="scene">
+  <div class="accent-line"></div>
+  <div class="watermark">Shabnam Alizada</div>
+
+  <svg id="bike" viewBox="0 0 900 480" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="bgr" cx="50%" cy="55%" r="65%">
+        <stop offset="0%" stop-color="#111"/>
+        <stop offset="100%" stop-color="#080808"/>
+      </radialGradient>
+      <filter id="gl" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="4" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <rect width="900" height="480" fill="url(#bgr)"/>
+    <line x1="0" y1="345" x2="900" y2="345" stroke="#fff" stroke-width="0.3" opacity="0.04"/>
+
+    <!-- REAR WHEEL -->
+    <g id="g-rear-wheel">
+      <circle class="bp" cx="210" cy="345" r="125" fill="none" stroke="#2e2e2e" stroke-width="14"/>
+      <circle class="bp" cx="210" cy="345" r="112" fill="none" stroke="#1e1e1e" stroke-width="1.5"/>
+      <g class="bp" stroke="#242424" stroke-width="0.9">
+        <line x1="210" y1="345" x2="210" y2="222"/><line x1="210" y1="345" x2="210" y2="468"/>
+        <line x1="210" y1="345" x2="87" y2="345"/><line x1="210" y1="345" x2="333" y2="345"/>
+        <line x1="210" y1="345" x2="123" y2="258"/><line x1="210" y1="345" x2="297" y2="432"/>
+        <line x1="210" y1="345" x2="297" y2="258"/><line x1="210" y1="345" x2="123" y2="432"/>
+        <line x1="210" y1="345" x2="97" y2="302"/><line x1="210" y1="345" x2="323" y2="388"/>
+        <line x1="210" y1="345" x2="323" y2="302"/><line x1="210" y1="345" x2="97" y2="388"/>
+        <line x1="210" y1="345" x2="153" y2="224"/><line x1="210" y1="345" x2="267" y2="466"/>
+        <line x1="210" y1="345" x2="267" y2="224"/><line x1="210" y1="345" x2="153" y2="466"/>
+      </g>
+      <circle cx="210" cy="345" r="10" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+      <circle class="bp" cx="210" cy="345" r="5" fill="#2a2a2a"/>
+    </g>
+
+    <!-- FRONT WHEEL -->
+    <g id="g-front-wheel">
+      <circle class="bp" cx="690" cy="345" r="125" fill="none" stroke="#2e2e2e" stroke-width="14"/>
+      <circle class="bp" cx="690" cy="345" r="112" fill="none" stroke="#1e1e1e" stroke-width="1.5"/>
+      <g class="bp" stroke="#242424" stroke-width="0.9">
+        <line x1="690" y1="345" x2="690" y2="222"/><line x1="690" y1="345" x2="690" y2="468"/>
+        <line x1="690" y1="345" x2="567" y2="345"/><line x1="690" y1="345" x2="813" y2="345"/>
+        <line x1="690" y1="345" x2="603" y2="258"/><line x1="690" y1="345" x2="777" y2="432"/>
+        <line x1="690" y1="345" x2="777" y2="258"/><line x1="690" y1="345" x2="603" y2="432"/>
+        <line x1="690" y1="345" x2="577" y2="302"/><line x1="690" y1="345" x2="803" y2="388"/>
+        <line x1="690" y1="345" x2="803" y2="302"/><line x1="690" y1="345" x2="577" y2="388"/>
+        <line x1="690" y1="345" x2="633" y2="224"/><line x1="690" y1="345" x2="747" y2="466"/>
+        <line x1="690" y1="345" x2="747" y2="224"/><line x1="690" y1="345" x2="633" y2="466"/>
+      </g>
+      <circle cx="690" cy="345" r="10" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+      <circle class="bp" cx="690" cy="345" r="5" fill="#2a2a2a"/>
+    </g>
+
+    <!-- CHAIN -->
+    <g id="g-chain" class="bp">
+      <ellipse cx="330" cy="345" rx="122" ry="12" fill="none" stroke="#1e1e1e" stroke-width="6" stroke-dasharray="8 4"/>
+    </g>
+
+    <!-- DRIVETRAIN -->
+    <g id="g-drivetrain">
+      <circle class="bp" cx="452" cy="345" r="38" fill="none" stroke="#2a2a2a" stroke-width="3"/>
+      <circle class="bp" cx="452" cy="345" r="26" fill="none" stroke="#222" stroke-width="1.5"/>
+      <circle class="bp" cx="452" cy="345" r="10" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+      <circle class="bp" cx="210" cy="345" r="18" fill="none" stroke="#222" stroke-width="2.5"/>
+      <g class="bp" stroke="#2a2a2a" stroke-width="3" stroke-linecap="round">
+        <line x1="452" y1="345" x2="476" y2="378"/>
+        <line x1="462" y1="382" x2="490" y2="382"/>
+        <line x1="452" y1="345" x2="428" y2="312"/>
+        <line x1="414" y1="308" x2="442" y2="308"/>
+      </g>
+    </g>
+
+    <!-- FRAME -->
+    <g id="g-frame">
+      <line class="bp" id="chainstay" x1="210" y1="345" x2="452" y2="345" stroke="#3a3a3a" stroke-width="5" stroke-linecap="round"/>
+      <line class="bp" id="seatstay" x1="210" y1="345" x2="418" y2="152" stroke="#383838" stroke-width="3.5" stroke-linecap="round"/>
+      <line class="bp" id="seattube" x1="452" y1="345" x2="418" y2="142" stroke="#444" stroke-width="6" stroke-linecap="round"/>
+      <line class="bp" id="downtube" x1="452" y1="345" x2="666" y2="250" stroke="#444" stroke-width="6" stroke-linecap="round"/>
+      <line class="bp" id="toptube" x1="424" y1="150" x2="664" y2="188" stroke="#3e3e3e" stroke-width="4.5" stroke-linecap="round"/>
+      <line class="bp" id="headtube" x1="664" y1="186" x2="676" y2="264" stroke="#484848" stroke-width="7" stroke-linecap="round"/>
+      <path class="bp" id="fork" d="M 674 262 Q 694 305 690 345" fill="none" stroke="#444" stroke-width="5" stroke-linecap="round"/>
+    </g>
+
+    <!-- SADDLE -->
+    <g id="g-saddle">
+      <line class="bp" x1="418" y1="142" x2="422" y2="168" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+      <path class="bp" id="saddle-shape" d="M 388 138 Q 412 124 448 136" fill="none" stroke="#484848" stroke-width="6" stroke-linecap="round"/>
+      <path class="bp" d="M 388 142 Q 412 128 448 140" fill="none" stroke="#2e2e2e" stroke-width="2" stroke-linecap="round"/>
+    </g>
+
+    <!-- HANDLEBARS -->
+    <g id="g-handlebars">
+      <line class="bp" x1="664" y1="188" x2="660" y2="158" stroke="#3e3e3e" stroke-width="4" stroke-linecap="round"/>
+      <path class="bp" id="bar-shape" d="M 628 160 Q 660 150 692 160" fill="none" stroke="#484848" stroke-width="6" stroke-linecap="round"/>
+      <line class="bp" x1="628" y1="160" x2="622" y2="180" stroke="#383838" stroke-width="3.5" stroke-linecap="round"/>
+      <line class="bp" x1="692" y1="160" x2="698" y2="180" stroke="#383838" stroke-width="3.5" stroke-linecap="round"/>
+    </g>
+  </svg>
+
+  <div class="text-panel show" id="text-panel">
+    <div class="ch-title" id="ch-title">Hi,<br>I am <em>Shabnam.</em></div>
+    <div class="ch-body" id="ch-body">And I have been preparing for this role my whole life. I just did not know it had a name.<br><br>Click anywhere to find out why.</div>
+  </div>
+
+  <div class="progress-wrap" id="progress-wrap"></div>
+  <div class="nav-hint" id="nav-hint">Click to continue</div>
+</div>
+
+<script>
+const cur = document.getElementById('cursor');
+const curR = document.getElementById('cursor-ring');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px';
+  curR.style.left = e.clientX+'px'; curR.style.top = e.clientY+'px';
+});
+
+const chapters = [
+  {
+    title: "Hi,<br>I am <em>Shabnam.</em>",
+    body: "And I have been preparing for this role my whole life. I just did not know it had a name.<br><br>Click anywhere to find out why.",
+    vb: [0,0,900,480], highlight: [], dimAll: false
+  },
+  {
+    title: "I know what it feels like<br>to be the <em>international student.</em>",
+    body: "I relocated from Azerbaijan to Melbourne to complete my Master of Information Systems at UniMelb. I speak five languages. I have worked across teams spanning more than ten nationalities. I understand the nervousness, the cultural adjustment, and what it takes to feel genuinely included in an academic environment.",
+    vb: [30,170,410,280], highlight: ["g-rear-wheel","seatstay","chainstay"], dimAll: true
+  },
+  {
+    title: "What I bring<br>to <em>your students.</em>",
+    body: "Cross-cultural communication across five languages and three countries. Peer coaching on public speaking, verbal delivery, and confidence. Over 14 years of peer leadership, elected class and student representative every single year from age 6 through university.",
+    vb: [300,90,350,300], highlight: ["seattube","downtube","toptube","headtube","seatstay","chainstay"], dimAll: true
+  },
+  {
+    title: "The stream<br>I am <em>made for.</em>",
+    body: "Digital Futures. Digitalisation, AI and the Energy Transition. I am studying MIS at UniMelb with a focus on AI governance. I led an AI Value Creation Team at Flowmingo AI. I believe AI literacy is one of the most important skills students across the Asia-Pacific region can build right now. I want to be the ambassador who makes that feel real, not theoretical.",
+    vb: [560,100,310,240], highlight: ["bar-shape","g-handlebars","headtube"], dimAll: true
+  },
+  {
+    title: "I have seen<br>the <em>SDGs up close.</em>",
+    body: "While working at Turkish Airlines, I volunteered with a refugee support campaign. Not because it was required. Because I wanted to understand what life looked like from a completely different perspective. I also coordinated the Go Green ecological exhibition, recruiting 58 students through digital campaigns. I do not just know the SDGs as a framework. I have lived close to the problems they are trying to solve.",
+    vb: [140,270,380,170], highlight: ["g-chain","g-drivetrain"], dimAll: true
+  },
+  {
+    title: "Here is<br><em>what you are getting.</em>",
+    body: "Available for the virtual assessment centre on 3 June. Available in full for the two weeks from 29 June to 10 July. Passionate about the Asia-Pacific region, having lived across Eastern Europe and now Melbourne. Ready to bring energy, cultural fluency, and genuine care to every student interaction.<br><br>I do not just support students. I make them feel like they belong.",
+    vb: [430,170,460,310], highlight: ["g-front-wheel","fork"], dimAll: true
+  }
+];
+
+let current = 0;
+let busy = false;
+
+const svgEl = document.getElementById('bike');
+const panel = document.getElementById('text-panel');
+const chTitle = document.getElementById('ch-title');
+const chBody = document.getElementById('ch-body');
+const navHint = document.getElementById('nav-hint');
+const progWrap = document.getElementById('progress-wrap');
+
+chapters.forEach((_,i) => {
+  const s = document.createElement('div');
+  s.className = 'prog-seg' + (i===0?' active':'');
+  s.id = 'seg-'+i;
+  s.appendChild(Object.assign(document.createElement('div'), {className:'fill'}));
+  progWrap.appendChild(s);
+});
+
+function lerpVB(a,b,t) {
+  const e = t<0.5 ? 2*t*t : -1+(4-2*t)*t;
+  return a.map((v,i) => v+(b[i]-v)*e);
+}
+
+function animVB(from, to, dur, cb) {
+  const start = performance.now();
+  (function step(now) {
+    const t = Math.min((now-start)/dur, 1);
+    svgEl.setAttribute('viewBox', lerpVB(from,to,t).join(' '));
+    t<1 ? requestAnimationFrame(step) : cb && cb();
+  })(start);
+}
+
+function go(idx) {
+  if (busy) return;
+  busy = true;
+  const ch = chapters[idx];
+  const prev = chapters[current];
+  panel.classList.remove('show');
+
+  setTimeout(() => {
+    document.querySelectorAll('.bp').forEach(p => {
+      p.style.stroke = '';
+      p.style.filter = '';
+      p.style.opacity = ch.dimAll ? '0.07' : '1';
+    });
+
+    ch.highlight.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const parts = el.tagName==='g' ? el.querySelectorAll('.bp') : [el];
+      parts.forEach(p => { p.style.stroke='#c9a84c'; p.style.filter='url(#gl)'; p.style.opacity='1'; });
+    });
+
+    chTitle.innerHTML = ch.title;
+    chBody.innerHTML = ch.body;
+
+    chapters.forEach((_,i) => {
+      document.getElementById('seg-'+i).className = 'prog-seg'+(i<idx?' done':i===idx?' active':'');
+    });
+
+    navHint.textContent = idx===chapters.length-1 ? 'Start over' : 'Click to continue';
+
+    animVB(prev.vb, ch.vb, 1000, () => {
+      panel.classList.add('show');
+      busy = false;
+    });
+
+    current = idx;
+  }, 280);
+}
+
+setTimeout(() => { panel.classList.add('show'); }, 200);
+
+document.getElementById('scene').addEventListener('click', () => go((current+1)%chapters.length));
+document.addEventListener('keydown', e => {
+  if (e.key==='ArrowRight'||e.key===' ') go((current+1)%chapters.length);
+  if (e.key==='ArrowLeft') go((current-1+chapters.length)%chapters.length);
+});
+</script>
+</body>
+</html>
